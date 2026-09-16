@@ -1,26 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Warm Parchment Neutral Foundation */
+  --bg-canvas: #FBFBF9;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F5F4F0;
+  --bg-surface-hover: #F0EFEA;
+  
+  /* Crisp 1px structural separators */
+  --border-subtle: #E7E5DF;
+  --border-strong: #D1CEBE;
+  
+  /* Refined Ink / Charcoal Typography */
+  --text-primary: #181C1B;
+  --text-secondary: #5C6461;
+  --text-muted: #8C9490;
+  
+  /* Signature Brand Colors */
+  --primary-forest: #153E35;
+  --primary-forest-hover: #0E2B25;
+  --primary-forest-subtle: #EDF5F2;
+  --primary-forest-border: #C8DFD7;
+  
+  /* Warm Terracotta Accent */
+  --terracotta: #B8532F;
+  --terracotta-hover: #9E4324;
+  --terracotta-subtle: #FDF3EE;
+  
+  /* Status Badges */
+  --status-available-bg: #EBF7EE;
+  --status-available-text: #1B5E33;
+  --status-available-border: #C8EBD1;
+  
+  --status-grouped-bg: #F0F4F8;
+  --status-grouped-text: #24425F;
+  --status-grouped-border: #CBDCEB;
+  
+  --status-full-bg: #FBF1EA;
+  --status-full-text: #8C4020;
+  --status-full-border: #F5D7C7;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Editorial display typography */
+.font-serif-heading {
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+/* Subtle border utility for senior-designer look */
+.border-subtle {
+  border: 1px solid var(--border-subtle);
+}
+
+.border-strong {
+  border: 1px solid var(--border-strong);
+}
+
+/* Restrained, soft elevation for popovers and dropdowns only */
+.shadow-elevated {
+  box-shadow: 0 4px 20px -2px rgba(24, 28, 27, 0.08), 0 2px 6px -1px rgba(24, 28, 27, 0.04);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1CEBE;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8C9490;
 }
