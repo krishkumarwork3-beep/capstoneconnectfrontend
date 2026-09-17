@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { User } from "@/lib/types";
 import { getMe, switchPersona, logout as apiLogout } from "@/lib/api/auth";
 import { MOCK_USERS } from "@/lib/api/mock/data";
@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     try {
       const currentUser = await getMe();
       setUser(currentUser);
@@ -29,10 +29,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    refreshUser();
+    let active = true;
+    getMe()
+      .then((currentUser) => {
+        if (active) {
+          setUser(currentUser);
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setUser(null);
+          setIsLoading(false);
+        }
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   const loginAs = async (userId: string) => {

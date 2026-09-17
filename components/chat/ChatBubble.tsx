@@ -33,17 +33,17 @@ export function ChatBubble({ message, isSelf, showSenderName = true }: ChatBubbl
 
       <div className={cn("space-y-1", isSelf ? "items-end" : "items-start")}>
         {!isSelf && showSenderName && (
-          <span className="text-[11px] font-semibold text-[#5C6461] ml-1">
+          <span className="text-[11px] font-semibold text-[#3F4744] dark:text-[#B0B9B6] ml-1">
             {message.sender_name}
           </span>
         )}
 
         <div
           className={cn(
-            "p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-2xs",
+            "p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed",
             isSelf
-              ? "bg-[#153E35] text-white rounded-br-xs"
-              : "bg-white text-[#181C1B] border border-[#E7E5DF] rounded-bl-xs"
+              ? "bg-[#153E35] dark:bg-[#225C50] text-white shadow-xs rounded-br-xs"
+              : "bg-white dark:bg-[#161B19] border border-stone-200 dark:border-[#293430] text-stone-900 dark:text-[#F3F5F4] shadow-xs rounded-bl-xs"
           )}
         >
           <p className="whitespace-pre-wrap">{message.text}</p>
@@ -51,7 +51,7 @@ export function ChatBubble({ message, isSelf, showSenderName = true }: ChatBubbl
 
         <div
           className={cn(
-            "text-[10px] text-[#8C9490] px-1",
+            "text-[10px] text-[#8C9490] dark:text-[#7A8883] px-1",
             isSelf ? "text-right" : "text-left"
           )}
         >

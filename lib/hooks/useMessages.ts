@@ -10,9 +10,8 @@ export function useMessages(conversationId: string | null, senderId: string | nu
   const [error, setError] = useState(false);
   const isPollingRef = useRef(true);
 
-  const fetchMessages = useCallback(async (showLoading = false) => {
+  const fetchMessages = useCallback(async (updateLoading = true) => {
     if (!conversationId) return;
-    if (showLoading) setLoading(true);
     try {
       const data = await getMessages(conversationId);
       setMessages(data);
@@ -20,19 +19,38 @@ export function useMessages(conversationId: string | null, senderId: string | nu
     } catch {
       setError(true);
     } finally {
-      if (showLoading) setLoading(false);
+      if (updateLoading) {
+        setLoading(false);
+      }
     }
   }, [conversationId]);
 
   // Initial fetch on conversation switch
   useEffect(() => {
+    let active = true;
     if (conversationId) {
-      fetchMessages(true);
+      getMessages(conversationId)
+        .then((data) => {
+          if (active) {
+            setMessages(data);
+            setError(false);
+            setLoading(false);
+          }
+        })
+        .catch(() => {
+          if (active) {
+            setError(true);
+            setLoading(false);
+          }
+        });
     } else {
       setMessages([]);
       setLoading(false);
     }
-  }, [conversationId, fetchMessages]);
+    return () => {
+      active = false;
+    };
+  }, [conversationId]);
 
   // Polling every 4.5 seconds for real-time synchronization
   useEffect(() => {

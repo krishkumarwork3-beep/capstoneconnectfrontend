@@ -7,10 +7,7 @@ import {
   Compass,
   PlusCircle,
   Search,
-  Filter,
   Layers,
-  Sparkles,
-  ArrowRight,
   Shield,
   X,
 } from "lucide-react";
@@ -56,7 +53,6 @@ export default function GroupsHubPage() {
   // Load My Groups
   const fetchMyGroups = useCallback(async () => {
     if (!user) return;
-    setMyGroupsLoading(true);
     try {
       const data = await getMyGroups(user.id);
       setMyGroups(data);
@@ -70,8 +66,9 @@ export default function GroupsHubPage() {
   // Load Discover Groups
   const fetchDiscoverGroups = useCallback(
     async (isInitial = true, nextCursor?: string | null) => {
-      if (isInitial) setLoading(true);
-      else setLoadingMore(true);
+      if (!isInitial) {
+        setLoadingMore(true);
+      }
       setError(false);
 
       try {
@@ -91,7 +88,7 @@ export default function GroupsHubPage() {
 
         setCursor(res.nextCursor || null);
         setHasMore(res.hasMore);
-      } catch (err) {
+      } catch {
         setError(true);
       } finally {
         if (isInitial) setLoading(false);
@@ -131,16 +128,16 @@ export default function GroupsHubPage() {
   return (
     <div className="space-y-8">
       {/* Editorial Header */}
-      <section className="bg-white rounded-2xl border border-[#E7E5DF] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xs">
+      <section className="bg-white dark:bg-[#161B19] rounded-2xl border border-[#E2E0D7] dark:border-[#293430] py-6 px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xs">
         <div className="max-w-2xl space-y-1.5">
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#FAF8F5] text-[#153E35] border border-[#E7E5DF]">
-            <Layers className="w-3.5 h-3.5 text-[#B8532F]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#FAF8F5] dark:bg-[#1D2421] text-[#153E35] dark:text-[#5CE08D] border border-[#E2E0D7] dark:border-[#293430]">
+            <Layers className="w-3.5 h-3.5 text-[#B8532F] dark:text-[#FF8D66]" />
             <span>Capstone Engineering Hub</span>
           </div>
-          <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#181C1B]">
+          <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#181C1B] dark:text-[#F3F5F4] tracking-tight">
             Capstone Groups & Project Teams
           </h1>
-          <p className="text-xs sm:text-sm text-[#5C6461] leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#3F4744] dark:text-[#B0B9B6] leading-relaxed">
             Manage your project roster, review incoming join requests, or explore inter-college
             capstone teams looking for domain specialists.
           </p>
@@ -148,7 +145,7 @@ export default function GroupsHubPage() {
 
         <Link
           href="/groups/create"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-[#153E35] hover:bg-[#0E2B25] transition-colors shadow-2xs shrink-0 cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-[#153E35] dark:bg-[#225C50] hover:bg-[#0E2B25] dark:hover:bg-[#2B7364] transition-colors shadow-2xs shrink-0 cursor-pointer"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Create New Capstone</span>
@@ -156,19 +153,19 @@ export default function GroupsHubPage() {
       </section>
 
       {/* Tabs Switcher: "My Groups" vs "Discover" */}
-      <div className="flex items-center justify-between border-b border-[#E7E5DF] pb-px">
+      <div className="flex items-center justify-between border-b border-[#E7E5DF] dark:border-[#293430] pb-px">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab("my-groups")}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === "my-groups"
-                ? "border-[#153E35] text-[#153E35]"
-                : "border-transparent text-[#5C6461] hover:text-[#181C1B]"
+                ? "border-[#153E35] dark:border-[#5CE08D] text-[#153E35] dark:text-[#5CE08D]"
+                : "border-transparent text-[#5C6461] dark:text-[#8C9490] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
             }`}
           >
             <Shield className="w-4 h-4" />
             <span>My Capstone Groups</span>
-            <span className="text-[11px] px-2 py-0.2 rounded-full bg-[#FAF8F5] text-[#5C6461] border border-[#E7E5DF]">
+            <span className="text-[11px] px-2 py-0.2 rounded-full bg-[#FAF8F5] dark:bg-[#1D2421] text-[#5C6461] dark:text-[#B0B9B6] border border-[#E7E5DF] dark:border-[#293430]">
               {myGroups.length}
             </span>
           </button>
@@ -177,13 +174,13 @@ export default function GroupsHubPage() {
             onClick={() => setActiveTab("discover")}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === "discover"
-                ? "border-[#153E35] text-[#153E35]"
-                : "border-transparent text-[#5C6461] hover:text-[#181C1B]"
+                ? "border-[#153E35] dark:border-[#5CE08D] text-[#153E35] dark:text-[#5CE08D]"
+                : "border-transparent text-[#5C6461] dark:text-[#8C9490] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
             }`}
           >
             <Compass className="w-4 h-4" />
             <span>Discover Teams</span>
-            <span className="text-[11px] px-2 py-0.2 rounded-full bg-[#FAF8F5] text-[#5C6461] border border-[#E7E5DF]">
+            <span className="text-[11px] px-2 py-0.2 rounded-full bg-[#FAF8F5] dark:bg-[#1D2421] text-[#5C6461] dark:text-[#B0B9B6] border border-[#E7E5DF] dark:border-[#293430]">
               {groups.length}
             </span>
           </button>
@@ -225,7 +222,7 @@ export default function GroupsHubPage() {
       {activeTab === "discover" && (
         <div className="space-y-6">
           {/* Filters for discover groups */}
-          <div className="bg-white rounded-xl border border-[#E7E5DF] p-4 space-y-3 shadow-xs">
+          <div className="bg-white dark:bg-[#161B19] rounded-xl border border-[#E7E5DF] dark:border-[#293430] p-4 space-y-3 shadow-xs">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8C9490]" />
@@ -234,12 +231,12 @@ export default function GroupsHubPage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search groups by project title, description, or required skills..."
-                  className="w-full pl-10 pr-10 py-2 text-xs sm:text-sm bg-[#FAF8F5] rounded-xl border border-[#E7E5DF] focus:border-[#153E35] focus:outline-hidden text-[#181C1B]"
+                  className="w-full pl-10 pr-10 py-2 text-xs sm:text-sm bg-[#FAF8F5] dark:bg-[#1D2421] rounded-xl border border-[#E7E5DF] dark:border-[#293430] focus:border-[#153E35] dark:focus:border-[#5CE08D] focus:outline-hidden text-[#181C1B] dark:text-[#F3F5F4]"
                 />
                 {search && (
                   <button
                     onClick={() => setSearch("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C9490] hover:text-[#181C1B]"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C9490] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -249,7 +246,7 @@ export default function GroupsHubPage() {
               <select
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-[#E7E5DF] bg-[#FAF8F5] text-xs sm:text-sm text-[#181C1B] focus:border-[#153E35] focus:outline-hidden cursor-pointer"
+                className="px-3 py-2 rounded-xl border border-[#E7E5DF] dark:border-[#293430] bg-[#FAF8F5] dark:bg-[#1D2421] text-xs sm:text-sm text-[#181C1B] dark:text-[#F3F5F4] focus:border-[#153E35] dark:focus:border-[#5CE08D] focus:outline-hidden cursor-pointer"
               >
                 {DOMAINS.map((d) => (
                   <option key={d} value={d === "All Domains" ? "all" : d}>
@@ -258,12 +255,12 @@ export default function GroupsHubPage() {
                 ))}
               </select>
 
-              <label className="flex items-center gap-2 text-xs font-medium text-[#181C1B] cursor-pointer px-2 py-1 select-none">
+              <label className="flex items-center gap-2 text-xs font-medium text-[#181C1B] dark:text-[#F3F5F4] cursor-pointer px-2 py-1 select-none">
                 <input
                   type="checkbox"
                   checked={openOnly}
                   onChange={(e) => setOpenOnly(e.target.checked)}
-                  className="rounded border-[#E7E5DF] text-[#153E35] focus:ring-0"
+                  className="rounded border-[#E7E5DF] dark:border-[#293430] text-[#153E35] focus:ring-0"
                 />
                 <span>Open slots only</span>
               </label>
@@ -302,13 +299,13 @@ export default function GroupsHubPage() {
               {/* Sentinel */}
               <div ref={sentinelRef} className="py-4 text-center">
                 {loadingMore && (
-                  <div className="flex items-center justify-center gap-2 text-xs text-[#5C6461]">
-                    <div className="w-4 h-4 rounded-full border-2 border-[#153E35] border-t-transparent animate-spin" />
+                  <div className="flex items-center justify-center gap-2 text-xs text-[#5C6461] dark:text-[#8C9490]">
+                    <div className="w-4 h-4 rounded-full border-2 border-[#153E35] dark:border-[#5CE08D] border-t-transparent animate-spin" />
                     <span>Loading more capstone teams...</span>
                   </div>
                 )}
                 {!hasMore && groups.length > 0 && (
-                  <p className="text-xs text-[#8C9490]">
+                  <p className="text-xs text-[#8C9490] dark:text-[#7A8883]">
                     Showing all available capstone groups.
                   </p>
                 )}

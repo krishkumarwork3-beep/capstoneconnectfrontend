@@ -287,7 +287,6 @@ class MockDatabase {
       return this.requests.filter((r) => r.sender_id === options.userId);
     } else {
       // Received either directly as receiver or as an admin of the requested group
-      const currentUser = this.getUserById(options.userId);
       const adminGroupIds = this.groups
         .filter((g) => g.members.some((m) => m.user_id === options.userId && m.role === "admin"))
         .map((g) => g.id);

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Inbox, Send, CheckCircle2, Clock, XCircle, ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import { Inbox, ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import { JoinRequest, RequestStatus } from "@/lib/types";
 import { getRequests } from "@/lib/api/requests";
 import { useAuth } from "@/lib/context/auth-context";
@@ -20,7 +20,6 @@ export default function RequestsInboxPage() {
 
   const loadRequests = useCallback(async () => {
     if (!user) return;
-    setLoading(true);
     setError(false);
     try {
       const data = await getRequests(user.id, direction);
@@ -44,30 +43,30 @@ export default function RequestsInboxPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Editorial Header */}
-      <section className="bg-white rounded-2xl border border-[#E7E5DF] p-6 sm:p-8 shadow-xs space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#FAF8F5] text-[#153E35] border border-[#E7E5DF]">
-          <Inbox className="w-3.5 h-3.5 text-[#B8532F]" />
+      <section className="bg-white dark:bg-[#161B19] rounded-2xl border border-[#E2E0D7] dark:border-[#293430] py-6 px-6 shadow-xs space-y-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#FAF8F5] dark:bg-[#1D2421] text-[#153E35] dark:text-[#5CE08D] border border-[#E2E0D7] dark:border-[#293430]">
+          <Inbox className="w-3.5 h-3.5 text-[#B8532F] dark:text-[#FF8D66]" />
           <span>Collaboration Invites & Requests</span>
         </div>
-        <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#181C1B]">
+        <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#181C1B] dark:text-[#F3F5F4] tracking-tight">
           Requests & Invitations Desk
         </h1>
-        <p className="text-xs sm:text-sm text-[#5C6461] leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#3F4744] dark:text-[#B0B9B6] leading-relaxed">
           Manage join requests sent to your capstone groups and track the status of applications you
           sent to other student projects.
         </p>
       </section>
 
       {/* Direction & Status Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E5DF] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E5DF] dark:border-[#293430] pb-3">
         {/* Direction Switcher */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setDirection("received")}
             className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
               direction === "received"
-                ? "bg-[#153E35] text-white"
-                : "bg-white border border-[#E7E5DF] text-[#5C6461] hover:border-[#D1CEBE]"
+                ? "bg-[#153E35] dark:bg-[#225C50] text-white"
+                : "bg-white dark:bg-[#161B19] border border-[#E7E5DF] dark:border-[#293430] text-[#5C6461] dark:text-[#B0B9B6] hover:border-[#D1CEBE] dark:hover:border-[#384842]"
             }`}
           >
             <ArrowDownLeft className="w-3.5 h-3.5" />
@@ -78,8 +77,8 @@ export default function RequestsInboxPage() {
             onClick={() => setDirection("sent")}
             className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
               direction === "sent"
-                ? "bg-[#153E35] text-white"
-                : "bg-white border border-[#E7E5DF] text-[#5C6461] hover:border-[#D1CEBE]"
+                ? "bg-[#153E35] dark:bg-[#225C50] text-white"
+                : "bg-white dark:bg-[#161B19] border border-[#E7E5DF] dark:border-[#293430] text-[#5C6461] dark:text-[#B0B9B6] hover:border-[#D1CEBE] dark:hover:border-[#384842]"
             }`}
           >
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -93,8 +92,8 @@ export default function RequestsInboxPage() {
             onClick={() => setStatusFilter("all")}
             className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
               statusFilter === "all"
-                ? "font-semibold text-[#181C1B] bg-[#F5F4F0]"
-                : "text-[#8C9490] hover:text-[#181C1B]"
+                ? "font-semibold text-[#181C1B] dark:text-[#F3F5F4] bg-[#F5F4F0] dark:bg-[#222B27]"
+                : "text-[#8C9490] dark:text-[#7A8883] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
             }`}
           >
             All ({requests.length})
@@ -103,8 +102,8 @@ export default function RequestsInboxPage() {
             onClick={() => setStatusFilter("pending")}
             className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
               statusFilter === "pending"
-                ? "font-semibold text-[#181C1B] bg-[#F5F4F0]"
-                : "text-[#8C9490] hover:text-[#181C1B]"
+                ? "font-semibold text-[#181C1B] dark:text-[#F3F5F4] bg-[#F5F4F0] dark:bg-[#222B27]"
+                : "text-[#8C9490] dark:text-[#7A8883] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
             }`}
           >
             Pending ({requests.filter((r) => r.status === "pending").length})
@@ -113,8 +112,8 @@ export default function RequestsInboxPage() {
             onClick={() => setStatusFilter("accepted")}
             className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
               statusFilter === "accepted"
-                ? "font-semibold text-[#181C1B] bg-[#F5F4F0]"
-                : "text-[#8C9490] hover:text-[#181C1B]"
+                ? "font-semibold text-[#181C1B] dark:text-[#F3F5F4] bg-[#F5F4F0] dark:bg-[#222B27]"
+                : "text-[#8C9490] dark:text-[#7A8883] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
             }`}
           >
             Accepted ({requests.filter((r) => r.status === "accepted").length})
@@ -123,8 +122,8 @@ export default function RequestsInboxPage() {
             onClick={() => setStatusFilter("rejected")}
             className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
               statusFilter === "rejected"
-                ? "font-semibold text-[#181C1B] bg-[#F5F4F0]"
-                : "text-[#8C9490] hover:text-[#181C1B]"
+                ? "font-semibold text-[#181C1B] dark:text-[#F3F5F4] bg-[#F5F4F0] dark:bg-[#222B27]"
+                : "text-[#8C9490] dark:text-[#7A8883] hover:text-[#181C1B] dark:hover:text-[#F3F5F4]"
             }`}
           >
             Declined ({requests.filter((r) => r.status === "rejected").length})

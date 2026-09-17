@@ -21,14 +21,13 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
   useEffect(() => {
     let isMounted = true;
     async function loadGitHub() {
-      setLoading(true);
       setError(false);
       try {
         const data = await getGitHubActivity(userId);
         if (isMounted) {
           setActivity(data);
         }
-      } catch (e) {
+      } catch {
         if (isMounted) setError(true);
       } finally {
         if (isMounted) setLoading(false);
@@ -42,12 +41,12 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
 
   if (!githubUrl) {
     return (
-      <div className="bg-white rounded-xl border border-[#E7E5DF] p-6 text-center">
-        <div className="w-10 h-10 rounded-full bg-[#FAF8F5] border border-[#E7E5DF] flex items-center justify-center mx-auto mb-2 text-[#8C9490]">
+      <div className="bg-white dark:bg-[#161B19] rounded-xl border border-[#E7E5DF] dark:border-[#293430] p-6 text-center">
+        <div className="w-10 h-10 rounded-full bg-[#FAF8F5] dark:bg-[#1D2421] border border-[#E7E5DF] dark:border-[#293430] flex items-center justify-center mx-auto mb-2 text-[#8C9490] dark:text-[#7A8883]">
           <GitHubIcon className="w-5 h-5" />
         </div>
-        <h4 className="font-serif-heading text-sm font-semibold text-[#181C1B]">No GitHub Linked</h4>
-        <p className="text-xs text-[#5C6461] mt-1">
+        <h4 className="font-serif-heading text-sm font-semibold text-[#181C1B] dark:text-[#F3F5F4]">No GitHub Linked</h4>
+        <p className="text-xs text-[#5C6461] dark:text-[#B0B9B6] mt-1">
           This user has not connected their GitHub profile yet.
         </p>
       </div>
@@ -56,7 +55,7 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-[#E7E5DF] p-6 space-y-4">
+      <div className="bg-white dark:bg-[#161B19] rounded-xl border border-[#E7E5DF] dark:border-[#293430] p-6 space-y-4">
         <div className="flex items-center justify-between">
           <Skeleton variant="text" className="w-36 h-5" />
           <Skeleton variant="circular" className="w-6 h-6" />
@@ -69,16 +68,16 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
 
   if (error || !activity) {
     return (
-      <div className="bg-[#FAF8F5] rounded-xl border border-[#E7E5DF] p-5 text-xs text-[#5C6461] flex items-center justify-between">
+      <div className="bg-[#FAF8F5] dark:bg-[#1D2421] rounded-xl border border-[#E7E5DF] dark:border-[#293430] p-5 text-xs text-[#5C6461] dark:text-[#B0B9B6] flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <AlertTriangle className="w-4 h-4 text-[#B8532F]" />
+          <AlertTriangle className="w-4 h-4 text-[#B8532F] dark:text-[#FF8D66]" />
           <span>Could not retrieve live GitHub repositories right now.</span>
         </div>
         <a
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-semibold text-[#153E35] hover:underline"
+          className="inline-flex items-center gap-1 font-semibold text-[#153E35] dark:text-[#5CE08D] hover:underline"
         >
           <span>Open on GitHub</span>
           <ExternalLink className="w-3 h-3" />
@@ -88,12 +87,12 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
   }
 
   return (
-    <div className="bg-white rounded-xl border border-[#E7E5DF] p-6 space-y-5">
+    <div className="bg-white dark:bg-[#161B19] rounded-xl border border-[#E7E5DF] dark:border-[#293430] p-6 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <GitHubIcon className="w-5 h-5 text-[#181C1B]" />
-          <h3 className="font-serif-heading text-base font-semibold text-[#181C1B]">
+          <GitHubIcon className="w-5 h-5 text-[#181C1B] dark:text-[#F3F5F4]" />
+          <h3 className="font-serif-heading text-base font-semibold text-[#181C1B] dark:text-[#F3F5F4]">
             GitHub Activity & Repositories
           </h3>
         </div>
@@ -101,7 +100,7 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs font-semibold text-[#153E35] hover:underline"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-[#153E35] dark:text-[#5CE08D] hover:underline"
         >
           <span>@{activity.username}</span>
           <ExternalLink className="w-3 h-3" />
@@ -110,11 +109,11 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
 
       {/* Top Languages Distribution */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-[#5C6461]">
+        <div className="flex items-center justify-between text-xs text-[#5C6461] dark:text-[#B0B9B6]">
           <span className="font-medium">Primary Languages</span>
           <span>{activity.public_repos} public repos</span>
         </div>
-        <div className="h-2 w-full bg-[#FAF8F5] rounded-full overflow-hidden flex">
+        <div className="h-2 w-full bg-[#FAF8F5] dark:bg-[#222B27] rounded-full overflow-hidden flex">
           {activity.top_languages.map((lang) => (
             <div
               key={lang.name}
@@ -134,8 +133,8 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
                 className="w-2 h-2 rounded-full"
                 style={{ backgroundColor: lang.color }}
               />
-              <span className="text-[#181C1B] font-medium">{lang.name}</span>
-              <span className="text-[#8C9490]">{lang.percentage}%</span>
+              <span className="text-[#181C1B] dark:text-[#F3F5F4] font-medium">{lang.name}</span>
+              <span className="text-[#8C9490] dark:text-[#7A8883]">{lang.percentage}%</span>
             </div>
           ))}
         </div>
@@ -143,28 +142,28 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
 
       {/* Recent Repositories */}
       <div className="space-y-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-[#8C9490] block">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#8C9490] dark:text-[#7A8883] block">
           Featured Capstone Repositories
         </span>
         <div className="space-y-2.5">
           {activity.recent_repos.map((repo) => (
             <div
               key={repo.id}
-              className="p-3.5 rounded-lg border border-[#E7E5DF] bg-[#FAF8F5] hover:border-[#D1CEBE] transition-colors"
+              className="p-3.5 rounded-lg border border-[#E7E5DF] dark:border-[#293430] bg-[#FAF8F5] dark:bg-[#1D2421] hover:border-[#D1CEBE] dark:hover:border-[#384842] transition-colors"
             >
               <div className="flex items-start justify-between gap-2">
                 <a
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-semibold text-[#181C1B] hover:text-[#153E35] flex items-center gap-1 group truncate"
+                  className="text-xs font-semibold text-[#181C1B] dark:text-[#F3F5F4] hover:text-[#153E35] dark:hover:text-[#5CE08D] flex items-center gap-1 group truncate"
                 >
-                  <Code2 className="w-3.5 h-3.5 text-[#153E35]" />
+                  <Code2 className="w-3.5 h-3.5 text-[#153E35] dark:text-[#5CE08D]" />
                   <span className="truncate group-hover:underline">{repo.name}</span>
                 </a>
-                <div className="flex items-center gap-2 text-xs text-[#8C9490] shrink-0">
+                <div className="flex items-center gap-2 text-xs text-[#8C9490] dark:text-[#7A8883] shrink-0">
                   <span className="flex items-center gap-0.5">
-                    <Star className="w-3 h-3 text-[#B8532F]" />
+                    <Star className="w-3 h-3 text-[#B8532F] dark:text-[#FF8D66]" />
                     {repo.stargazers_count}
                   </span>
                   <span className="flex items-center gap-0.5">
@@ -174,11 +173,11 @@ export function GitHubActivityPanel({ userId, githubUrl }: GitHubActivityPanelPr
                 </div>
               </div>
               {repo.description && (
-                <p className="text-xs text-[#5C6461] mt-1.5 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-[#5C6461] dark:text-[#B0B9B6] mt-1.5 line-clamp-2 leading-relaxed">
                   {repo.description}
                 </p>
               )}
-              <div className="flex items-center justify-between text-[11px] text-[#8C9490] mt-2 pt-2 border-t border-[#E7E5DF]/60">
+              <div className="flex items-center justify-between text-[11px] text-[#8C9490] dark:text-[#7A8883] mt-2 pt-2 border-t border-[#E7E5DF]/60 dark:border-[#293430]/60">
                 <span>{repo.language || "Multi-language"}</span>
                 <span>Updated {formatDate(repo.updated_at)}</span>
               </div>

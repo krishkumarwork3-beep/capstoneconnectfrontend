@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, X, Filter, SlidersHorizontal, Check } from "lucide-react";
+import { Search, X, SlidersHorizontal } from "lucide-react";
 
 interface FeedFiltersProps {
   search: string;
@@ -63,13 +63,13 @@ export function FeedFilters({
       {/* Primary search bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8C9490]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8C9490] dark:text-[#74807C]" />
           <input
             type="text"
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
             placeholder="Search students by name, skills (e.g. PyTorch, Rust, ROS), or domain..."
-            className="w-full pl-10 pr-10 py-2.5 text-sm bg-white rounded-xl border border-[#E7E5DF] focus:border-[#153E35] focus:outline-hidden text-[#181C1B] placeholder-[#8C9490] shadow-xs transition-colors"
+            className="w-full pl-10 pr-10 py-2.5 text-sm bg-white dark:bg-[#161B19] rounded-xl border border-[#E2E0D7] dark:border-[#293430] focus:border-[#153E35] dark:focus:border-[#5CE08D] focus:outline-hidden text-[#181C1B] dark:text-[#F3F5F4] placeholder-[#8C9490] dark:placeholder-[#74807C] shadow-xs transition-colors"
           />
           {localSearch && (
             <button
@@ -77,7 +77,7 @@ export function FeedFilters({
                 setLocalSearch("");
                 onSearchChange("");
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C9490] hover:text-[#181C1B] p-0.5"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C9490] dark:text-[#74807C] hover:text-[#181C1B] dark:hover:text-white p-0.5"
             >
               <X className="w-4 h-4" />
             </button>
@@ -90,8 +90,8 @@ export function FeedFilters({
             onClick={() => onHasGroupFilterChange(null)}
             className={`px-3 py-2 text-xs font-medium rounded-lg transition-colors cursor-pointer shrink-0 ${
               hasGroupFilter === null
-                ? "bg-[#153E35] text-white"
-                : "bg-white border border-[#E7E5DF] text-[#5C6461] hover:border-[#D1CEBE]"
+                ? "bg-[#153E35] dark:bg-[#225C50] text-white"
+                : "bg-white dark:bg-[#161B19] border border-[#E2E0D7] dark:border-[#293430] text-[#3F4744] dark:text-[#B0B9B6] hover:border-[#C5C2B2] dark:hover:border-[#405049]"
             }`}
           >
             All Students
@@ -100,19 +100,19 @@ export function FeedFilters({
             onClick={() => onHasGroupFilterChange(false)}
             className={`px-3 py-2 text-xs font-medium rounded-lg transition-colors cursor-pointer shrink-0 flex items-center gap-1.5 ${
               hasGroupFilter === false
-                ? "bg-[#153E35] text-white"
-                : "bg-white border border-[#E7E5DF] text-[#1B5E33] hover:border-[#C8EBD1]"
+                ? "bg-[#153E35] dark:bg-[#225C50] text-white"
+                : "bg-white dark:bg-[#161B19] border border-[#E2E0D7] dark:border-[#293430] text-[#1B5E33] dark:text-[#5CE08D] hover:border-[#C8EBD1] dark:hover:border-[#1F4D31]"
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1B5E33] shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1B5E33] dark:bg-[#5CE08D] shrink-0" />
             Looking for Group
           </button>
           <button
             onClick={() => onHasGroupFilterChange(true)}
             className={`px-3 py-2 text-xs font-medium rounded-lg transition-colors cursor-pointer shrink-0 ${
               hasGroupFilter === true
-                ? "bg-[#153E35] text-white"
-                : "bg-white border border-[#E7E5DF] text-[#24425F] hover:border-[#CBDCEB]"
+                ? "bg-[#153E35] dark:bg-[#225C50] text-white"
+                : "bg-white dark:bg-[#161B19] border border-[#E2E0D7] dark:border-[#293430] text-[#24425F] dark:text-[#7DB2E8] hover:border-[#CBDCEB] dark:hover:border-[#22374D]"
             }`}
           >
             In a Group
@@ -123,7 +123,7 @@ export function FeedFilters({
       {/* Secondary dropdown row: College, Passout year, and Reset */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-[#8C9490] flex items-center gap-1 font-medium mr-1">
+          <span className="text-[#8C9490] dark:text-[#74807C] flex items-center gap-1 font-medium mr-1">
             <SlidersHorizontal className="w-3.5 h-3.5" />
             Filter by:
           </span>
@@ -133,10 +133,10 @@ export function FeedFilters({
             value={college}
             onChange={(e) => onCollegeChange(e.target.value)}
             aria-label="Filter by College"
-            className="px-2.5 py-1.5 rounded-lg border border-[#E7E5DF] bg-white text-[#181C1B] hover:border-[#D1CEBE] focus:outline-hidden cursor-pointer"
+            className="px-2.5 py-1.5 rounded-lg border border-[#E2E0D7] dark:border-[#293430] bg-white dark:bg-[#161B19] text-[#181C1B] dark:text-[#F3F5F4] hover:border-[#C5C2B2] dark:hover:border-[#405049] focus:outline-hidden cursor-pointer"
           >
             {COLLEGES.map((c) => (
-              <option key={c} value={c === "All Colleges" ? "all" : c}>
+              <option key={c} value={c === "All Colleges" ? "all" : c} className="dark:bg-[#161B19] dark:text-[#F3F5F4]">
                 {c}
               </option>
             ))}
@@ -147,10 +147,10 @@ export function FeedFilters({
             value={passingYear}
             onChange={(e) => onPassingYearChange(e.target.value)}
             aria-label="Filter by Passing Year"
-            className="px-2.5 py-1.5 rounded-lg border border-[#E7E5DF] bg-white text-[#181C1B] hover:border-[#D1CEBE] focus:outline-hidden cursor-pointer"
+            className="px-2.5 py-1.5 rounded-lg border border-[#E2E0D7] dark:border-[#293430] bg-white dark:bg-[#161B19] text-[#181C1B] dark:text-[#F3F5F4] hover:border-[#C5C2B2] dark:hover:border-[#405049] focus:outline-hidden cursor-pointer"
           >
             {PASSING_YEARS.map((y) => (
-              <option key={y} value={y === "All Years" ? "all" : y}>
+              <option key={y} value={y === "All Years" ? "all" : y} className="dark:bg-[#161B19] dark:text-[#F3F5F4]">
                 {y === "All Years" ? "Graduation Year: All" : `Class of ${y}`}
               </option>
             ))}

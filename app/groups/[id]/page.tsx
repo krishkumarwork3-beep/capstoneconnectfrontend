@@ -7,14 +7,9 @@ import {
   ChevronLeft,
   Shield,
   Layers,
-  Users2,
-  Calendar,
   LogOut,
-  Mail,
   CheckCircle2,
-  XCircle,
   ExternalLink,
-  Sparkles,
   AlertCircle,
   Send,
 } from "lucide-react";
@@ -45,7 +40,6 @@ export default function GroupDetailPage() {
 
   const loadData = useCallback(async () => {
     if (!groupId) return;
-    setLoading(true);
     setError(false);
     try {
       const g = await getGroupById(groupId);
@@ -71,8 +65,9 @@ export default function GroupDetailPage() {
       await respondRequest(requestId, status);
       await loadData();
       await refreshUser();
-    } catch (err: any) {
-      alert(err.message || "Failed to respond to request");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to respond to request";
+      alert(msg);
     }
   };
 
@@ -84,8 +79,9 @@ export default function GroupDetailPage() {
       await leaveGroup(group.id, user.id);
       await refreshUser();
       router.push("/groups");
-    } catch (err: any) {
-      alert(err.message || "Failed to leave group");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to leave group";
+      alert(msg);
     } finally {
       setIsLeaving(false);
     }
@@ -97,8 +93,9 @@ export default function GroupDetailPage() {
     try {
       await sendJoinRequest(group.id, user.id, `Hi, I would like to join ${group.name}!`);
       setJoinRequested(true);
-    } catch (err: any) {
-      alert(err.message || "Failed to send request");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to send request";
+      alert(msg);
     } finally {
       setIsRequestingJoin(false);
     }
@@ -135,7 +132,7 @@ export default function GroupDetailPage() {
       <div>
         <Link
           href="/groups"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5C6461] hover:text-[#181C1B] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5C6461] dark:text-[#8C9490] hover:text-[#181C1B] dark:hover:text-[#F3F5F4] transition-colors"
         >
           <ChevronLeft className="w-4 h-4" />
           <span>Back to Capstone Groups</span>
@@ -143,26 +140,26 @@ export default function GroupDetailPage() {
       </div>
 
       {/* Main Group Header Card */}
-      <section className="bg-white rounded-2xl border border-[#E7E5DF] p-6 sm:p-8 shadow-xs space-y-6">
+      <section className="bg-white dark:bg-[#161B19] rounded-2xl border border-[#E7E5DF] dark:border-[#293430] p-6 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
           <div className="space-y-2 max-w-3xl">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FAF8F5] text-[#153E35] border border-[#E7E5DF]">
-                <Layers className="w-3.5 h-3.5 text-[#153E35]" />
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FAF8F5] dark:bg-[#1D2421] text-[#153E35] dark:text-[#5CE08D] border border-[#E7E5DF] dark:border-[#293430]">
+                <Layers className="w-3.5 h-3.5 text-[#153E35] dark:text-[#5CE08D]" />
                 {group.domain}
               </span>
               {isAdmin && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-[#FAF1EC] text-[#B8532F] border border-[#F5D7C7]">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-[#FAF1EC] dark:bg-[#3D1A10] text-[#B8532F] dark:text-[#FF8D66] border border-[#F5D7C7] dark:border-[#5A2616]">
                   <Shield className="w-3.5 h-3.5" />
                   Admin Controls Enabled
                 </span>
               )}
             </div>
 
-            <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#181C1B]">
+            <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#181C1B] dark:text-[#F3F5F4]">
               {group.name}
             </h1>
-            <p className="text-xs sm:text-sm text-[#5C6461] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#5C6461] dark:text-[#B0B9B6] leading-relaxed">
               {group.description}
             </p>
           </div>
@@ -173,25 +170,25 @@ export default function GroupDetailPage() {
               <button
                 onClick={handleLeaveGroup}
                 disabled={isLeaving}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#8C4020] bg-[#FAF1EC] hover:bg-[#F5E2D6] border border-[#F5D7C7] transition-colors cursor-pointer disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#8C4020] dark:text-[#FF8D66] bg-[#FAF1EC] dark:bg-[#3D1A10] hover:bg-[#F5E2D6] dark:hover:bg-[#4E2215] border border-[#F5D7C7] dark:border-[#5A2616] transition-colors cursor-pointer disabled:opacity-50"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Leave Group</span>
               </button>
             ) : joinRequested ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#EBF7EE] text-[#1B5E33] border border-[#C8EBD1]">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#EBF7EE] dark:bg-[#153320] text-[#1B5E33] dark:text-[#5CE08D] border border-[#C8EBD1] dark:border-[#235C37]">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Join Request Pending</span>
               </span>
             ) : isFull ? (
-              <span className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#FAF8F5] text-[#8C9490] border border-[#E7E5DF]">
+              <span className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#FAF8F5] dark:bg-[#1D2421] text-[#8C9490] border border-[#E7E5DF] dark:border-[#293430]">
                 Group Full
               </span>
             ) : (
               <button
                 onClick={handleSendJoinRequest}
                 disabled={isRequestingJoin}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#153E35] hover:bg-[#0E2B25] transition-colors cursor-pointer shadow-xs disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#153E35] dark:bg-[#225C50] hover:bg-[#0E2B25] dark:hover:bg-[#2B7364] transition-colors cursor-pointer shadow-xs disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Request to Join Team</span>
@@ -201,20 +198,20 @@ export default function GroupDetailPage() {
         </div>
 
         {/* Capacity Bar & Requirements */}
-        <div className="pt-4 border-t border-[#F0EFEA] grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <div className="pt-4 border-t border-[#F0EFEA] dark:border-[#222B27] grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div>
             <CapacityBar current={group.members.length} max={group.max_members} />
           </div>
 
           <div className="space-y-1.5">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8C9490] block">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8C9490] dark:text-[#7A8883] block">
               Required Capstone Skills:
             </span>
             <div className="flex flex-wrap gap-1.5">
               {group.requirements.map((req) => (
                 <span
                   key={req}
-                  className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#FAF8F5] text-[#181C1B] border border-[#E7E5DF]"
+                  className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#FAF8F5] dark:bg-[#1D2421] text-[#181C1B] dark:text-[#F3F5F4] border border-[#E7E5DF] dark:border-[#293430]"
                 >
                   {req}
                 </span>
@@ -226,29 +223,29 @@ export default function GroupDetailPage() {
 
       {/* Admin Only Gate: Pending Membership Applications */}
       <AdminOnlyGate groupId={group.id}>
-        <section className="bg-white rounded-2xl border-2 border-[#153E35]/20 p-6 sm:p-8 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+        <section className="bg-white dark:bg-[#161B19] rounded-2xl border-2 border-[#153E35]/20 dark:border-[#5CE08D]/20 p-6 sm:p-8 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA] dark:border-[#222B27]">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-[#FAF1EC] text-[#B8532F] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[#FAF1EC] dark:bg-[#3D1A10] text-[#B8532F] dark:text-[#FF8D66] flex items-center justify-center">
                 <Shield className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="font-serif-heading text-base font-bold text-[#181C1B]">
+                <h2 className="font-serif-heading text-base font-bold text-[#181C1B] dark:text-[#F3F5F4]">
                   Admin Join Requests Desk
                 </h2>
-                <p className="text-[11px] text-[#5C6461]">
+                <p className="text-[11px] text-[#5C6461] dark:text-[#8C9490]">
                   Only visible to you as the group administrator. Review and approve incoming applicant students.
                 </p>
               </div>
             </div>
 
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#153E35] text-white">
+            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#153E35] dark:bg-[#225C50] text-white">
               {requests.filter((r) => r.status === "pending").length} Pending
             </span>
           </div>
 
           {isFull && (
-            <div className="flex items-center gap-2 p-3 rounded-xl bg-[#FAF1EC] border border-[#F5D7C7] text-xs text-[#8C4020]">
+            <div className="flex items-center gap-2 p-3 rounded-xl bg-[#FAF1EC] dark:bg-[#3D1A10] border border-[#F5D7C7] dark:border-[#5A2616] text-xs text-[#8C4020] dark:text-[#FF8D66]">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>
                 <strong>Team Capacity Reached ({group.max_members}/{group.max_members}).</strong> You
@@ -268,22 +265,22 @@ export default function GroupDetailPage() {
                 .map((req) => (
                   <div
                     key={req.id}
-                    className="p-4 rounded-xl border border-[#E7E5DF] bg-[#FAF8F5] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                    className="p-4 rounded-xl border border-[#E7E5DF] dark:border-[#293430] bg-[#FAF8F5] dark:bg-[#1D2421] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <Link
                           href={`/profile/${req.sender_id}`}
-                          className="font-serif-heading text-sm font-semibold text-[#181C1B] hover:text-[#153E35] hover:underline"
+                          className="font-serif-heading text-sm font-semibold text-[#181C1B] dark:text-[#F3F5F4] hover:text-[#153E35] dark:hover:text-[#5CE08D] hover:underline"
                         >
                           {req.sender_name}
                         </Link>
-                        <span className="text-xs text-[#5C6461]">
+                        <span className="text-xs text-[#5C6461] dark:text-[#8C9490]">
                           • {req.sender_college} (&apos;{String(req.sender_passing_year).slice(-2)})
                         </span>
                       </div>
                       {req.note && (
-                        <p className="text-xs text-[#5C6461] leading-relaxed">
+                        <p className="text-xs text-[#5C6461] dark:text-[#B0B9B6] leading-relaxed">
                           &ldquo;{req.note}&rdquo;
                         </p>
                       )}
@@ -295,14 +292,14 @@ export default function GroupDetailPage() {
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleRespondRequest(req.id, "rejected")}
-                        className="px-3 py-1.5 text-xs font-semibold text-[#8C4020] bg-white border border-[#F5D7C7] hover:bg-[#FAF1EC] rounded-lg transition-colors cursor-pointer"
+                        className="px-3 py-1.5 text-xs font-semibold text-[#8C4020] dark:text-[#FF8D66] bg-white dark:bg-[#161B19] border border-[#F5D7C7] dark:border-[#5A2616] hover:bg-[#FAF1EC] dark:hover:bg-[#3D1A10] rounded-lg transition-colors cursor-pointer"
                       >
                         Decline
                       </button>
                       <button
                         onClick={() => handleRespondRequest(req.id, "accepted")}
                         disabled={isFull}
-                        className="px-3.5 py-1.5 text-xs font-semibold text-white bg-[#153E35] hover:bg-[#0E2B25] rounded-lg transition-colors cursor-pointer disabled:opacity-40"
+                        className="px-3.5 py-1.5 text-xs font-semibold text-white bg-[#153E35] dark:bg-[#225C50] hover:bg-[#0E2B25] dark:hover:bg-[#2B7364] rounded-lg transition-colors cursor-pointer disabled:opacity-40"
                       >
                         Accept Member
                       </button>
@@ -315,13 +312,13 @@ export default function GroupDetailPage() {
       </AdminOnlyGate>
 
       {/* Roster: Group Member List */}
-      <section className="bg-white rounded-2xl border border-[#E7E5DF] p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+      <section className="bg-white dark:bg-[#161B19] rounded-2xl border border-[#E7E5DF] dark:border-[#293430] p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA] dark:border-[#222B27]">
           <div>
-            <h2 className="font-serif-heading text-lg font-bold text-[#181C1B]">
+            <h2 className="font-serif-heading text-lg font-bold text-[#181C1B] dark:text-[#F3F5F4]">
               Project Team Roster
             </h2>
-            <p className="text-xs text-[#5C6461]">
+            <p className="text-xs text-[#5C6461] dark:text-[#8C9490]">
               Verified engineering students collaborating on this capstone.
             </p>
           </div>
@@ -336,7 +333,7 @@ export default function GroupDetailPage() {
             return (
               <div
                 key={member.user_id}
-                className="p-4 rounded-xl border border-[#E7E5DF] bg-[#FAF8F5] flex items-center justify-between hover:border-[#D1CEBE] transition-colors"
+                className="p-4 rounded-xl border border-[#E7E5DF] dark:border-[#293430] bg-[#FAF8F5] dark:bg-[#1D2421] flex items-center justify-between hover:border-[#D1CEBE] dark:hover:border-[#384842] transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div
@@ -354,21 +351,21 @@ export default function GroupDetailPage() {
                     <div className="flex items-center gap-1.5">
                       <Link
                         href={`/profile/${member.user_id}`}
-                        className="text-xs sm:text-sm font-semibold text-[#181C1B] hover:text-[#153E35] truncate"
+                        className="text-xs sm:text-sm font-semibold text-[#181C1B] dark:text-[#F3F5F4] hover:text-[#153E35] dark:hover:text-[#5CE08D] truncate"
                       >
                         {member.name}
                       </Link>
                       {member.role === "admin" ? (
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#FAF1EC] text-[#B8532F] font-semibold border border-[#F5D7C7]">
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#FAF1EC] dark:bg-[#3D1A10] text-[#B8532F] dark:text-[#FF8D66] font-semibold border border-[#F5D7C7] dark:border-[#5A2616]">
                           Lead
                         </span>
                       ) : (
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F0F4F8] text-[#24425F] font-semibold border border-[#CBDCEB]">
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F0F4F8] dark:bg-[#142333] text-[#24425F] dark:text-[#7EB5E6] font-semibold border border-[#CBDCEB] dark:border-[#1F3D5C]">
                           Member
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-[#5C6461] truncate">
+                    <p className="text-xs text-[#5C6461] dark:text-[#8C9490] truncate">
                       {member.college} • &apos;{String(member.passing_year).slice(-2)}
                     </p>
                   </div>
@@ -376,7 +373,7 @@ export default function GroupDetailPage() {
 
                 <Link
                   href={`/profile/${member.user_id}`}
-                  className="p-1.5 rounded-lg text-[#8C9490] hover:text-[#153E35] hover:bg-white transition-colors"
+                  className="p-1.5 rounded-lg text-[#8C9490] hover:text-[#153E35] dark:hover:text-[#5CE08D] hover:bg-white dark:hover:bg-[#293430] transition-colors"
                   title="View Profile"
                 >
                   <ExternalLink className="w-4 h-4" />

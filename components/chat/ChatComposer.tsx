@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, Paperclip } from "lucide-react";
+import { Send } from "lucide-react";
 
 interface ChatComposerProps {
   onSendMessage: (text: string) => Promise<void>;
@@ -35,7 +35,7 @@ export function ChatComposer({ onSendMessage, disabled = false }: ChatComposerPr
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-3 bg-white border-t border-[#E7E5DF] flex items-end gap-2"
+      className="p-3 bg-white dark:bg-[#161B19] border-t border-[#E7E5DF] dark:border-[#293430] flex items-end gap-2"
     >
       <div className="relative flex-1">
         <textarea
@@ -45,14 +45,14 @@ export function ChatComposer({ onSendMessage, disabled = false }: ChatComposerPr
           placeholder="Type a message to your capstone team... (Enter to send, Shift+Enter for new line)"
           rows={1}
           disabled={disabled}
-          className="w-full text-xs sm:text-sm p-3 max-h-32 min-h-[44px] rounded-xl border border-[#E7E5DF] focus:border-[#153E35] focus:outline-hidden resize-none bg-[#FAF8F5] text-[#181C1B]"
+          className="w-full text-xs sm:text-sm p-3 max-h-32 min-h-[44px] rounded-xl border border-[#E7E5DF] dark:border-[#293430] focus:border-[#153E35] dark:focus:border-[#5CE08D] focus:outline-hidden resize-none bg-[#FAF8F5] dark:bg-[#1D2421] text-[#181C1B] dark:text-[#F3F5F4]"
         />
       </div>
 
       <button
         type="submit"
         disabled={!text.trim() || sending || disabled}
-        className="w-11 h-11 rounded-xl bg-[#153E35] hover:bg-[#0E2B25] text-white flex items-center justify-center transition-colors shrink-0 disabled:opacity-40 cursor-pointer shadow-2xs"
+        className="w-11 h-11 rounded-xl bg-[#153E35] dark:bg-[#225C50] hover:bg-[#0E2B25] dark:hover:bg-[#2B7364] text-white flex items-center justify-center transition-colors shrink-0 disabled:opacity-40 cursor-pointer shadow-2xs"
         title="Send message"
       >
         <Send className="w-4 h-4" />
